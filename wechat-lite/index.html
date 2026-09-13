@@ -68,6 +68,7 @@
     @keyframes mysteryCollect { to { opacity:0; transform:translate(-50%,-135%) scale(.3); } }
     #heroShadow { position: absolute; z-index: 10; width: 9%; height: 2.4%; border-radius: 50%; background: #17331452; filter: blur(2px); transform: translate(-50%,-50%); transition: left .18s linear, top .18s linear, transform .12s, opacity .12s; }
     #hero { --face:1; position: absolute; z-index: 12; width: 13%; height: auto; transform: translate(-50%,-88%) scaleX(var(--face)); transform-origin: 50% 100%; filter: drop-shadow(0 2px 2px #1b2d2040); transition:left .18s linear,top .18s linear; will-change: left,top,transform; }
+    #hero.board-overlap { -webkit-mask-image:linear-gradient(to bottom,rgba(0,0,0,.42) 0 58%,rgba(0,0,0,.72) 70%,#000 86%); mask-image:linear-gradient(to bottom,rgba(0,0,0,.42) 0 58%,rgba(0,0,0,.72) 70%,#000 86%); }
     #hero.jump { animation: hop .20s ease-out; }
     #hero.finish-jump { animation: finishHop .34s cubic-bezier(.2,.72,.25,1); }
     #hero.celebrate { animation:celebrateHop .58s ease-in-out infinite; }
@@ -228,6 +229,7 @@
       function fitRoad(el,idx) { const [sx,sy]=slotFits[idx]; el.style.setProperty('--sx',sx); el.style.setProperty('--sy',sy); return `translate(-50%,-50%) scale(${sx},${sy})`; }
       function setHero(p) {
         hero.style.left=p.x+'%'; hero.style.top=p.y+'%';
+        hero.classList.toggle('board-overlap',p.y<=43.75);
         heroShadow.style.left=p.x+'%'; heroShadow.style.top=(p.y+.7)+'%';
       }
       function makeTile(r,c,color) {
