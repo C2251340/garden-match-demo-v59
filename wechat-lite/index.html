@@ -40,10 +40,11 @@
     .tile { width:22.5%; }
     .road-tile, .fly-tile, .pave-tile { width:13.5%; }
     .tile { z-index: 7; cursor: grab; clip-path: inset(20% 25% 18% 25%); transition: left .23s cubic-bezier(.2,.8,.25,1), top .23s cubic-bezier(.2,.8,.25,1), transform .13s, opacity .15s; }
-    .tile.yellow, .road-tile.yellow, .fly-tile.yellow, .pave-tile.yellow { filter: hue-rotate(198deg) saturate(2.2) brightness(1.42) drop-shadow(0 3px 2px #58380065); }
+    .tile.yellow { filter:drop-shadow(0 3px 2px #58380065); }
+    .road-tile.yellow, .fly-tile.yellow, .pave-tile.yellow { filter: hue-rotate(198deg) saturate(2.2) brightness(1.42) drop-shadow(0 3px 2px #58380065); }
     .tile.red { filter:hue-rotate(148deg) saturate(1.28) brightness(.9) drop-shadow(0 3px 2px #4b171765); }
     .tile.selected { transform: translate(-50%,-58%) scale(1.08); filter: drop-shadow(0 0 7px white) drop-shadow(0 4px 3px #1e442c88); }
-    .tile.yellow.selected { filter:hue-rotate(198deg) saturate(2.2) brightness(1.42) drop-shadow(0 0 7px white) drop-shadow(0 4px 3px #58380065); }
+    .tile.yellow.selected { filter:drop-shadow(0 0 7px white) drop-shadow(0 4px 3px #58380065); }
     .tile.red.selected { filter:hue-rotate(148deg) saturate(1.28) brightness(.9) drop-shadow(0 0 7px white) drop-shadow(0 4px 3px #4b171765); }
     .tile.clear { transform: translate(-50%,-70%) scale(.15) rotate(18deg); opacity: 0; }
     .road-tile { z-index: 8; transform:translate(-50%,-50%) scale(var(--sx,1),var(--sy,1)); animation:land .16s ease-out both; }
@@ -180,6 +181,7 @@
       const tutorialHand = document.querySelector('#tutorialHand');
       const retry = document.querySelector('#retry');
       const asset = 'tile-blue.webp';
+      const yellowAsset = 'tile-yellow.webp';
       const roadAsset = 'road-stone-v2.webp';
       const shatteredRoadAsset = 'road-stone-split.webp';
       const hammerAsset = 'hammer-tool.webp';
@@ -230,7 +232,7 @@
       }
       function makeTile(r,c,color) {
         const el = new Image();
-        el.src=asset; el.className='tile '+colorClass(color); el.draggable=false;
+        el.src=color==='Y'?yellowAsset:asset; el.className='tile '+colorClass(color); el.draggable=false;
         const t={ id:nextId++, r,c,color,el }; el.dataset.id=t.id;
         place(el,pos(r,c)); boardEl.appendChild(el); tiles.set(t.id,t); grid[r][c]=t;
         return t;
@@ -338,7 +340,7 @@
       function ensurePlayable() {
         if(findLegalMove()) return;
         initialColors().forEach((row,r)=>row.forEach((color,c)=>{
-          const t=grid[r][c]; t.color=color; t.el.className='tile '+colorClass(color);
+          const t=grid[r][c]; t.color=color; t.el.src=color==='Y'?yellowAsset:asset; t.el.className='tile '+colorClass(color);
         }));
       }
       async function clearAndLay(matches,continuePaving=false) {
