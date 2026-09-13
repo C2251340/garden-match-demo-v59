@@ -229,7 +229,7 @@
       function fitRoad(el,idx) { const [sx,sy]=slotFits[idx]; el.style.setProperty('--sx',sx); el.style.setProperty('--sy',sy); return `translate(-50%,-50%) scale(${sx},${sy})`; }
       function setHero(p) {
         hero.style.left=p.x+'%'; hero.style.top=p.y+'%';
-        hero.classList.toggle('board-overlap',p.y<=43.75);
+        hero.classList.toggle('board-overlap',p.y>=49.5);
         heroShadow.style.left=p.x+'%'; heroShadow.style.top=(p.y+.7)+'%';
       }
       function makeTile(r,c,color) {
